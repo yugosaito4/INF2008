@@ -78,7 +78,7 @@ def extract_features_labels(directory, visualize=False):
     return labels, np.array(data)
 
 # Adjust the path to the directory containing your training images
-labels, features = extract_features_labels('train_images', visualize=True)
+labels, features = extract_features_labels('../images/train', visualize=True)
 
 # Create DataFrame with labels first
 df = pd.DataFrame(features)
@@ -91,4 +91,4 @@ df.columns = columns
 # Save DataFrame to CSV
 df.to_csv('hog_facial_expression_features.csv', index=False)
 
-print("Features saved to 'hog_facial_expression_features.csv'")
+print("Features saved to 'hog_features_all_emotions.csv'")
