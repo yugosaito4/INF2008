@@ -28,7 +28,7 @@ X_train_full, X_test, y_train_full, y_test = train_test_split(
 # Set up 5-Fold Stratified Cross-Validation
 skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
-# Define the best model (without GridSearch)
+# Define the best model (dervied previously from performing GridSearch)
 best_model = RandomForestClassifier(
     n_estimators=1000,       # Best number of trees
     max_depth=20,            # Maximum tree depth
