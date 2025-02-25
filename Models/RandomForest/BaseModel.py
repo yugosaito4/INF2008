@@ -34,7 +34,7 @@ best_model = RandomForestClassifier(
     max_depth=30,           # Maximum tree depth
     min_samples_split=10,   # Minimum samples to split
     min_samples_leaf=1,     # Minimum samples per leaf
-    class_weight="balanced",# Handle class imbalance
+    class_weight="balanced_subsample",# Handle class imbalance
     random_state=42, 
     n_jobs=-1
 )
