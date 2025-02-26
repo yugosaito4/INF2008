@@ -10,8 +10,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger()
 
 # ✅ Load the optimized dataset
+
 logger.info("Loading Optimized Features Dataset...")
-optimized_data = pd.read_parquet("C:/Users/Admin/Downloads/optimized_features.parquet")
+optimized_data = pd.read_parquet("C:/Users/denni/Downloads/optimized_features.parquet")
 
 # ✅ Extract features and labels (KEEP AS DATAFRAME)
 X_combined = optimized_data.iloc[:, 1:]  # ✅ REMOVED `.values` to keep column names
@@ -28,8 +29,8 @@ X_train_full, X_test, y_train_full, y_test = train_test_split(
 best_model = lgb.LGBMClassifier(
     boosting_type="gbdt",  # ✅ SWITCHED TO GRADIENT BOOSTING
     n_estimators=2000,  # ✅ More boosting rounds for better learning
-    learning_rate=0.05,  # ✅ Controls step size (lower = better generalization)
-    max_depth=15,  # ✅ Restrict depth to prevent overfitting
+    learning_rate=0.01,  # ✅ Controls step size (lower = better generalization)
+    max_depth=12,  # ✅ Restrict depth to prevent overfitting
     num_leaves=64,  # ✅ More leaves for complex splits
     feature_fraction=0.8,  # ✅ Randomly select 80% features for each tree
     bagging_fraction=0.8,  # ✅ Subsample 80% data for each boosting iteration
@@ -39,7 +40,7 @@ best_model = lgb.LGBMClassifier(
     reg_alpha=0.1,  # ✅ L1 Regularization (prevents overfitting)
     reg_lambda=0.1,  # ✅ L2 Regularization (prevents overfitting)
     random_state=42,
-    n_jobs=-1,
+    #n_jobs=-1,
     
     # ✅ GPU SETTINGS (Enable if GPU is available)
     device="cpu",  # Change to "gpu" if needed
