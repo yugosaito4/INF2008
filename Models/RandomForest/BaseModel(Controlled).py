@@ -12,7 +12,7 @@ logger = logging.getLogger()
 
 # Load the optimized dataset
 logger.info("Loading Controlled Features Dataset...")
-optimized_data = pd.read_parquet("C:/Users/Admin/Downloads/ckplus_feature.parquet")
+optimized_data = pd.read_parquet("C:/Users/Admin/Downloads/ckplus_features.parquet")
 
 # Extract features and labels
 X_combined = optimized_data.iloc[:, 1:].values  # All columns except label
