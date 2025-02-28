@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 from imblearn.over_sampling import SMOTE  # Handle class imbalance
-import psutil  # For logging memory usage
+import psutil  
 
 # **Set Up Logging**
 os.makedirs("logs", exist_ok=True)
@@ -35,7 +35,7 @@ def log_memory_usage():
 
 log_and_print("Starting SVM Training...")
 
-# **Load Extracted Features**
+#Load Extracted Features
 input_parquet = "Features/FER_features.parquet"
 if not os.path.exists(input_parquet):
     raise FileNotFoundError(f"Feature file {input_parquet} not found!")
@@ -47,11 +47,10 @@ log_and_print(f"Loaded dataset with {df.shape[0]} samples and {df.shape[1]} feat
 X = df.drop(columns=["label"]).values
 y = df["label"].values
 
-# **Encode Labels**
+# Encode Labels
 label_encoder = LabelEncoder()
 y_encoded = label_encoder.fit_transform(y)
 
-# **Apply SMOTE to Balance Classes**
 log_and_print("Applying SMOTE to balance the dataset...")
 smote = SMOTE()
 X_balanced, y_balanced = smote.fit_resample(X, y_encoded)
@@ -65,22 +64,22 @@ X_train, X_test, y_train, y_test = train_test_split(
 log_and_print(f"Split dataset: {X_train.shape[0]} training samples, {X_test.shape[0]} test samples.")
 log_memory_usage()
 
-# **Define Class Weights (Boosting 'Angry', 'Sad', 'Neutral')**
+#boost class weights for underoperforming class
 class_weights = {
     0: 2.2,  # Angry
-    1: 1.0,  # Disgust (no changes, already good)
-    2: 1.3,  # Fear (slight boost)
-    3: 1.0,  # Happy (no changes)
-    4: 1.7,  # Neutral (boost)
-    5: 2.5   # Sad (biggest boost)
+    1: 1.0,  # Disgust 
+    2: 1.3,  # Fear 
+    3: 1.0,  # Happy 
+    4: 1.7,  # Neutral 
+    5: 2.5   # Sad 
 }
 # **GridSearchCV for SVM Optimization**
 log_and_print("Starting GridSearchCV for hyperparameter tuning...")
 start_time = time.time()
 
 param_grid = {
-    "C": [1, 10, 50, 100],  # Regularization parameter
-    "gamma": ["scale", "auto" , 0.01 , 0.001],  # Kernel coefficient
+    "C": [1, 10, 50, 100], 
+    "gamma": ["scale", "auto" , 0.01 , 0.001],  
     "kernel": ["rbf"]
 }
 
@@ -97,21 +96,19 @@ end_time = time.time()
 log_and_print(f"GridSearchCV completed in {end_time - start_time:.2f} seconds.")
 log_memory_usage()
 
-# **Evaluate Best Model on Test Set**
+#Evaluate Best Model on Test Set
 train_accuracy = best_svm.score(X_train, y_train)  # Training accuracy
 log_and_print(f"Training Accuracy: {train_accuracy:.4f}")
 
-# **Evaluate Best Model on Test Set**
+#Evaluate Best Model on Test Set
 log_and_print("Evaluating the best SVM model on the test set...")
 y_pred = best_svm.predict(X_test)
 test_accuracy = accuracy_score(y_test, y_pred)  # Test accuracy
 log_and_print(f"Test Accuracy: {test_accuracy:.4f}")
 
-# **Print Classification Report**
 class_report = classification_report(y_test, y_pred, target_names=label_encoder.classes_)
 log_and_print("\nClassification Report:\n" + class_report)
 
-# **Confusion Matrix**
 conf_matrix = confusion_matrix(y_test, y_pred)
 plt.figure(figsize=(8, 6))
 sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Blues", xticklabels=label_encoder.classes_, yticklabels=label_encoder.classes_)
