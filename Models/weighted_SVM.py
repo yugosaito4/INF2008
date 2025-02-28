@@ -36,7 +36,7 @@ def log_memory_usage():
 log_and_print("Starting SVM Training...")
 
 # **Load Extracted Features**
-input_parquet = "CSV/optimized_features.parquet"
+input_parquet = "Features/FER_features.parquet"
 if not os.path.exists(input_parquet):
     raise FileNotFoundError(f"Feature file {input_parquet} not found!")
 
@@ -79,8 +79,8 @@ log_and_print("Starting GridSearchCV for hyperparameter tuning...")
 start_time = time.time()
 
 param_grid = {
-    "C": [10],  # Regularization parameter
-    "gamma": ["scale"],  # Kernel coefficient
+    "C": [1, 10, 50, 100],  # Regularization parameter
+    "gamma": ["scale", "auto" , 0.01 , 0.001],  # Kernel coefficient
     "kernel": ["rbf"]
 }
 

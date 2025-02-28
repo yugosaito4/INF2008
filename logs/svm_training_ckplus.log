@@ -1,0 +1,29 @@
+2025-02-28 19:07:55,913 - INFO - Starting SVM Training for CK+...
+2025-02-28 19:07:55,967 - INFO - Loaded dataset with 981 samples and 301 features.
+2025-02-28 19:07:55,972 - INFO - Split dataset: 784 training samples, 197 test samples.
+2025-02-28 19:07:55,973 - INFO - Memory Usage: 163.61 MB
+2025-02-28 19:07:55,973 - INFO - Starting GridSearchCV for hyperparameter tuning on CK+...
+2025-02-28 19:07:59,239 - INFO - Best SVM Parameters for CK+: {'C': 1, 'gamma': 'scale', 'kernel': 'rbf'}
+2025-02-28 19:07:59,239 - INFO - GridSearchCV completed in 3.27 seconds.
+2025-02-28 19:07:59,239 - INFO - Memory Usage: 166.00 MB
+2025-02-28 19:07:59,319 - INFO - Training Accuracy: 1.0000
+2025-02-28 19:07:59,320 - INFO - Evaluating the best SVM model on the test set...
+2025-02-28 19:07:59,341 - INFO - Test Accuracy: 0.9848
+2025-02-28 19:07:59,346 - INFO - 
+Classification Report:
+              precision    recall  f1-score   support
+
+       anger       1.00      1.00      1.00        27
+    contempt       1.00      1.00      1.00        11
+     disgust       1.00      0.91      0.96        35
+        fear       1.00      1.00      1.00        15
+       happy       0.93      1.00      0.97        42
+     sadness       1.00      1.00      1.00        17
+    surprise       1.00      1.00      1.00        50
+
+    accuracy                           0.98       197
+   macro avg       0.99      0.99      0.99       197
+weighted avg       0.99      0.98      0.98       197
+
+2025-02-28 19:08:05,287 - INFO - Confusion matrix saved to logs/confusion_matrix_ckplus.png.
+2025-02-28 19:08:05,287 - INFO - Memory Usage: 182.45 MB

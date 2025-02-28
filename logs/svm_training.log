@@ -1,0 +1,32 @@
+2025-02-28 19:19:46,634 - INFO - Starting SVM Training...
+2025-02-28 19:19:47,032 - INFO - Loaded dataset with 28860 samples and 301 features.
+2025-02-28 19:19:47,051 - INFO - Applying SMOTE to balance the dataset...
+2025-02-28 19:19:47,954 - INFO - New dataset shape after SMOTE: 34874 samples
+2025-02-28 19:19:47,954 - INFO - Memory Usage: 485.56 MB
+2025-02-28 19:19:47,986 - INFO - Split dataset: 27899 training samples, 6975 test samples.
+2025-02-28 19:19:47,987 - INFO - Memory Usage: 567.35 MB
+2025-02-28 19:19:47,987 - INFO - Starting GridSearchCV for hyperparameter tuning...
+2025-02-28 20:11:15,896 - INFO - Best SVM Parameters: {'C': 50, 'gamma': 'scale', 'kernel': 'rbf'}
+2025-02-28 20:11:15,896 - INFO - GridSearchCV completed in 3087.91 seconds.
+2025-02-28 20:11:15,897 - INFO - Memory Usage: 611.34 MB
+2025-02-28 20:13:44,982 - INFO - Training Accuracy: 0.9987
+2025-02-28 20:13:44,982 - INFO - Evaluating the best SVM model on the test set...
+2025-02-28 20:14:22,192 - INFO - Test Accuracy: 0.6810
+2025-02-28 20:14:22,206 - INFO - 
+Classification Report:
+              precision    recall  f1-score   support
+
+       angry       0.62      0.65      0.63       996
+     disgust       0.95      0.95      0.95       996
+        fear       0.62      0.60      0.61       996
+       happy       0.70      0.71      0.70       997
+     neutral       0.54      0.49      0.51       997
+         sad       0.48      0.52      0.50       996
+    surprise       0.86      0.85      0.86       997
+
+    accuracy                           0.68      6975
+   macro avg       0.68      0.68      0.68      6975
+weighted avg       0.68      0.68      0.68      6975
+
+2025-02-28 20:36:26,258 - INFO - Confusion matrix saved to logs/confusion_matrix.png.
+2025-02-28 20:36:26,258 - INFO - Memory Usage: 630.63 MB

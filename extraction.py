@@ -1,5 +1,4 @@
 import os
-import json
 import cv2
 import numpy as np
 import pandas as pd
@@ -34,17 +33,27 @@ def log_memory_usage():
 log_and_print("Starting Feature Extraction for CK+ Dataset...")
 
 # **Define Paths**
-input_folder = "images/CK+/"
-output_parquet = "CSV/ckplus_features.parquet"
-config_path = "config.json"
+# input_folder = "images/CK+/"
+# output_parquet = "Features/ckplus_features.parquet"
 
-# **Load Configuration**
-with open(config_path, 'r') as file:
-    config = json.load(file)
+input_folder = "images/FER2013/"
+output_parquet = "Features/FER_features.parquet"
 
-hog_config = config['hog']
-pca_config = config['pca']
-use_pca = pca_config.get('use_pca', True)
+# **Feature Extraction Parameters**
+IMAGE_SIZE = (128, 128)  # Resize images to 128x128  
+HOG_PARAMS = {
+    "pixels_per_cell": (8, 8),
+    "cells_per_block": (2, 2),
+    "orientations": 9,
+    "feature_vector": True
+}
+LBP_PARAMS = {
+    "P": 8,  # Number of circularly symmetric neighbor set points
+    "R": 1,  # Radius of LBP
+    "method": "uniform"
+}
+PCA_VARIANCE_THRESHOLD = 0.95  # Keep 95% variance
+SELECT_K = 300  # Select top 300 features
 
 # **Initialize Scaler**
 scaler = StandardScaler()
@@ -56,8 +65,8 @@ def apply_clahe(image):
 
 def extract_lbp_features(image):
     """Extracts LBP features from an image."""
-    lbp = local_binary_pattern(image, P=8, R=1, method="uniform")  
-    (hist, _) = np.histogram(lbp.ravel(), bins=np.arange(0, 10), density=True)
+    lbp = local_binary_pattern(image, LBP_PARAMS["P"], LBP_PARAMS["R"], method=LBP_PARAMS["method"])
+    hist, _ = np.histogram(lbp.ravel(), bins=np.arange(0, LBP_PARAMS["P"] + 3), density=True)
     return hist
 
 def process_image(img_path, class_name):
@@ -66,11 +75,11 @@ def process_image(img_path, class_name):
     if img is None:
         return None
 
-    img_resized = cv2.resize(img, (128, 128))
-    img_eq = apply_clahe(img_resized)  # **Use CLAHE instead of Histogram Equalization**
+    img_resized = cv2.resize(img, IMAGE_SIZE)
+    img_eq = apply_clahe(img_resized)  # Use CLAHE for contrast enhancement
 
     # **Extract Features**
-    hog_features = hog(img_eq, pixels_per_cell=(8, 8), cells_per_block=(2, 2), orientations=9, feature_vector=True)
+    hog_features = hog(img_eq, **HOG_PARAMS)
     lbp_features = extract_lbp_features(img_eq)
 
     # **Combine Features**
@@ -111,17 +120,18 @@ log_memory_usage()
 # **Compute PCA Explained Variance**
 pca_temp = PCA().fit(features_scaled)
 explained_variance = np.cumsum(pca_temp.explained_variance_ratio_)
-optimal_components = np.argmax(explained_variance >= 0.95) + 1  # **Use 95% variance**
+optimal_components = np.argmax(explained_variance >= PCA_VARIANCE_THRESHOLD) + 1  # **Keep 95% variance**
+log_and_print(f"Optimal PCA components for {PCA_VARIANCE_THRESHOLD*100}% variance: {optimal_components}")
 
 # **Apply PCA**
-log_and_print(f"Applying PCA with {optimal_components} components (95% variance)...")
+log_and_print(f"Applying PCA with {optimal_components} components...")
 pca = PCA(n_components=optimal_components)
 X_pca = pca.fit_transform(features_scaled)
 log_memory_usage()
 
-# **Apply Feature Selection (SelectKBest Instead of RFE)**
-log_and_print("Applying SelectKBest feature selection...")
-selector = SelectKBest(f_classif, k=300)  # Select top 300 features
+# **Apply Feature Selection (SelectKBest)**
+log_and_print(f"Applying SelectKBest to select top {SELECT_K} features...")
+selector = SelectKBest(f_classif, k=SELECT_K)
 X_selected = selector.fit_transform(X_pca, labels)
 log_memory_usage()
 

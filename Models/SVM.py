@@ -34,7 +34,7 @@ def log_memory_usage():
 log_and_print("Starting SVM Training for CK+...")
 
 # **Load Extracted Features**
-input_parquet = "CSV/ckplus_features.parquet"  # Use CK+ features
+input_parquet = "Features/ckplus_features.parquet"  # Use CK+ features
 if not os.path.exists(input_parquet):
     raise FileNotFoundError(f"Feature file {input_parquet} not found!")
 
@@ -61,7 +61,7 @@ log_and_print("Starting GridSearchCV for hyperparameter tuning on CK+...")
 start_time = time.time()
 
 param_grid = {
-    "C": [10],  # **Expanded C range**
+    "C": [1, 10, 50, 100],  # **Expanded C range**
     "gamma": ["scale", "auto" , 0.01 , 0.001],  # Test both scale and auto gamma
     "kernel": ["rbf"]
 }
