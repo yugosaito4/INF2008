@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger()
 
 # Load the optimized dataset
-logger.info("Loading Optimized Features Dataset...")
+logger.info("Loading Complex Features Dataset...")
 optimized_data = pd.read_parquet("C:/Users/Admin/Downloads/optimized_features.parquet")
 
 # Extract features and labels
@@ -28,7 +28,7 @@ X_train_full, X_test, y_train_full, y_test = train_test_split(
 # Set up 5-Fold Stratified Cross-Validation
 skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
-# Define the best model (dervied previously from performing GridSearch)
+# Define the best model (Best params dervied from previously performing GridSearch)
 best_model = RandomForestClassifier(
     n_estimators=1000,       # Best number of trees
     max_depth=20,            # Maximum tree depth
