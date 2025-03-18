@@ -21,8 +21,8 @@ Machine Learning Project by P5-17
 **Environment Setup**<br/>
 1.Clone the GitHub repository from https://github.com/yugosaito4/INF2008<br/>
 2.Prerequisites:<br/>
-⋅⋅*Python 3.8+<br/>
-⋅⋅*pipenv installed<br/>
+  ⋅Python 3.8+<br/>
+  ⋅pipenv installed<br/>
 3.Install all required packages by navigating to the root of the project directory and running the command pipenv install in the terminal.
 
 **Data Processing**<br/>
