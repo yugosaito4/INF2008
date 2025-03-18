@@ -19,22 +19,22 @@ Machine Learning Project by P5-17
 
 ## User Manual
 **Environment Setup**<br/>
-1.Clone the GitHub repository from https://github.com/yugosaito4/INF2008<br/>
-2.Prerequisites:<br/>
-  ⋅Python 3.8+<br/>
-  ⋅pipenv installed<br/>
-3.Install all required packages by navigating to the root of the project directory and running the command pipenv install in the terminal.
+1. Clone the GitHub repository from https://github.com/yugosaito4/INF2008<br/>
+2. Prerequisites:<br/>
+  -Python 3.8+<br/>
+  -pipenv installed<br/>
+3. Install all required packages by navigating to the root of the project directory and running the command pipenv install in the terminal.
 
 **Data Processing**<br/>
-1.Dataset is under the ‘images’ folder.<br/>
-2.The features are already extracted in the 'Features' folder<br/>
-3.Re-running extraction.py will override the existing feature parquet file. Make sure to update the file path inside extraction.py if you wish to switch between CK+ and FER2013 datasets.
+1. Dataset is under the ‘images’ folder.<br/>
+2. The features are already extracted in the 'Features' folder<br/>
+3. Re-running extraction.py will override the existing feature parquet file. Make sure to update the file path inside extraction.py if you wish to switch between CK+ and FER2013 datasets.
 
 **Training / Testing**<br/>
-1.For CK+ Dataset (using SVM model): Run SVM.py<br/>
-2.For CK+ Dataset (using RandomForest model): Run RandomForest(Controlled).py<br/>
-3.For FER2013 Dataset (using SVM model): Run weighted_SVM.py<br/>
-4.For FER2013 Dataset (using RandomForest model): Run RandomForest(Complex).py
+1. For CK+ Dataset (using SVM model): Run SVM.py<br/>
+2. For CK+ Dataset (using RandomForest model): Run RandomForest(Controlled).py<br/>
+3. For FER2013 Dataset (using SVM model): Run weighted_SVM.py<br/>
+4. For FER2013 Dataset (using RandomForest model): Run RandomForest(Complex).py
 
 **Results**<br/>
-1.Evaluation results (e.g., accuracy, confusion matrix) will be printed in the terminal.
+1. Evaluation results (e.g., accuracy, confusion matrix) will be printed in the terminal.
